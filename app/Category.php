@@ -12,6 +12,6 @@ class Category extends Model
 
     public function news()
     {
-        return $this->belongsToMany('App\Category');
+        return $this->belongsToMany('App\News');
     }
 }
