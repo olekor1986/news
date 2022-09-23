@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CategoriesNewsTableSeeder extends Seeder
+class CategoryNewsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class CategoriesNewsTableSeeder extends Seeder
     public function run()
     {
         for ($i = 0; $i < 60; $i++) {
-            DB::table('categories_news')->insert([
+            DB::table('category_news')->insert([
                         'category_id' => rand(1, 12),
                         'news_id' => rand(1, 60)
                 ]);
