@@ -2,35 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\NewsRequest;
 use App\News;
 
 class NewsController extends Controller
 {
     public function news()
     {
-        return response()->json(News::get(), 200);
+        $news = News::get();
+        return response()->json($news->load('categories'), 200);
     }
 
     public function newsById($id)
     {
-        return response()->json(News::find($id), 200);
+        $news = News::find($id);
+        if (is_null($news)){
+            return response()->json(['error' => true, 'message' => 'Not found'], 404);
+        }
+        return response()->json($news->load('categories'), 200);
     }
 
-    public function newsStore(Request $request)
+    public function newsStore(NewsRequest $request)
     {
         $news = News::create($request->all());
         return response()->json($news, 201);
     }
 
-    public function newsUpdate(Request $request, News $news)
+    public function newsUpdate(NewsRequest $request, $id)
     {
+        $news = News::find($id);
+        if (is_null($news)){
+            return response()->json(['error' => true, 'message' => 'Not found'], 404);
+        }
         $news->update($request->all());
         return response()->json($news, 200);
     }
 
-    public function newsDestroy(News $news)
+    public function newsDestroy($id)
     {
+        $news = News::find($id);
+        if (is_null($news)){
+            return response()->json(['error' => true, 'message' => 'Not found'], 404);
+        }
         $news->delete();
         return response()->json('', 204); 
     }
