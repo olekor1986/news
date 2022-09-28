@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Category;
 
 class CategoriesController extends Controller
@@ -22,13 +23,13 @@ class CategoriesController extends Controller
         return response()->json($category->load('news'), 200);
     }
 
-    public function categoriesStore(Request $request)
+    public function categoriesStore(CategoryRequest $request)
     {
         $category = Category::create($request->all());
         return response()->json($category, 201);
     }
 
-    public function categoriesUpdate(Request $request, $id)
+    public function categoriesUpdate(CategoryRequest $request, $id)
     {
         $category = Category::find($id);
         if (is_null($category)){

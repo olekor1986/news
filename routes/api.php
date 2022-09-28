@@ -17,14 +17,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('news', 'NewsController@news');
-Route::get('news/{id}', 'NewsController@newsById');
-Route::post('news', 'NewsController@newsStore');
-Route::put('news/{news}', 'NewsController@newsUpdate');
-Route::delete('news/{news}', 'NewsController@newsDestroy');
 
-Route::get('categories', 'CategoriesController@categories');
-Route::get('categories/{id}', 'CategoriesController@categoriesById');
-Route::post('categories', 'CategoriesController@categoriesStore');
-Route::put('categories/{category}', 'CategoriesController@categoriesUpdate');
-Route::delete('categories/{category}', 'CategoriesController@categoriesDestroy');
+Route::get('news', 'Api\NewsController@news');
+Route::get('news/{id}', 'Api\NewsController@newsById');
+Route::middleware('auth:api')->post('news', 'Api\NewsController@newsStore');
+Route::middleware('auth:api')->put('news/{news}', 'Api\NewsController@newsUpdate');
+Route::middleware('auth:api')->delete('news/{news}', 'Api\NewsController@newsDestroy');
+
+Route::get('categories', 'Api\CategoriesController@categories');
+Route::get('categories/{id}', 'Api\CategoriesController@categoriesById');
+Route::middleware('auth:api')->post('categories', 'Api\CategoriesController@categoriesStore');
+Route::middleware('auth:api')->put('categories/{category}', 'Api\CategoriesController@categoriesUpdate');
+Route::middleware('auth:api')->delete('categories/{category}', 'Api\CategoriesController@categoriesDestroy');
+
+Route::post('auth/register', 'Api\AuthController@register');
